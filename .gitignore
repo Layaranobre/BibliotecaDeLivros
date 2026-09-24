@@ -1,0 +1,11 @@
+# Configurações com dados sensíveis
+.env
+config.properties
+
+# Eclipse
+.settings/
+.classpath
+.project
+
+# Maven
+target/
