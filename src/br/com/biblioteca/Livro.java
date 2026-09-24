@@ -9,12 +9,12 @@ public class Livro {
 	public String autor;
 	public String editora;
 	public String isbn; //Pode ser guardado como String ou como long ex: 5661611616L
-	public int anoPublicacao;
+	public String anoPublicacao;
 	public boolean disponibilidade;
 	
 	//Construtor (Para criar o livro) precisa declarar todos que estão acima.
 	public Livro(String titulo, String autor, String editora, String isbn,
-				int anoPublicacao, boolean disponibilidade) {
+				String anoPublicacao, boolean disponibilidade) {
 	this.titulo = titulo;
 	this.autor = autor;
 	this.editora = editora;
