@@ -1,0 +1,20 @@
+### LISTAR TODOS OS LIVROS
+GET http://localhost:8080/livros
+
+
+### BUSCAR LIVRO POR ID
+GET http://localhost:8080/livros/{id}
+
+
+### CADASTRAR LIVRO
+POST http://localhost:8080/livros
+Content-Type: application/json
+
+
+### ATUALIZAR LIVRO
+PUT http://localhost:8080/livros/{id}
+Content-Type: application/json
+
+
+### EXCLUIR LIVRO
+DELETE http://localhost:8080/livros/{id}

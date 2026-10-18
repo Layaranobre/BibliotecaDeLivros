@@ -14,7 +14,7 @@ public class Conexao {
         Properties propriedades = new Properties();
 
         try {
-            propriedades.load(new FileInputStream("config.properties"));
+            propriedades.load(new FileInputStream("application.properties"));
         } catch (IOException e) {
             throw new SQLException("Não foi possível carregar as configurações do banco.", e);
         }

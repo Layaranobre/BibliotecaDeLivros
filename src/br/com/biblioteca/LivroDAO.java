@@ -8,136 +8,236 @@ import java.util.List;
 
 public class LivroDAO {
 
-    // =========================================================
-    // CADASTRAR LIVRO
-    // =========================================================
+	// =========================================================
+	// CADASTRAR LIVRO
+	// =========================================================
 
-    public void cadastrar(Livro livro) {
+	public void cadastrar(Livro livro) {
 
-        String sql = "INSERT INTO livros "
-                + "(titulo, autor, editora, isbn, ano_publicacao, disponibilidade) "
-                + "VALUES (?, ?, ?, ?, ?, ?)";
+		String sql = "INSERT INTO livros "
+				+ "(titulo, autor, editora, isbn, ano_publicacao, disponibilidade) "
+				+ "VALUES (?, ?, ?, ?, ?, ?)";
 
-        try (Connection conexao = Conexao.conectar();
-             PreparedStatement comando = conexao.prepareStatement(sql)) {
+		try (Connection conexao = Conexao.conectar();
+			 PreparedStatement comando = conexao.prepareStatement(sql)) {
 
-            comando.setString(1, livro.titulo);
-            comando.setString(2, livro.autor);
-            comando.setString(3, livro.editora);
-            comando.setString(4, livro.isbn);
-            comando.setString(5, livro.anoPublicacao);
-            comando.setBoolean(6, livro.disponibilidade);
+			comando.setString(1, livro.getTitulo());
+			comando.setString(2, livro.getAutor());
+			comando.setString(3, livro.getEditora());
+			comando.setString(4, livro.getIsbn());
+			comando.setString(5, livro.getAnoPublicacao());
+			comando.setBoolean(6, livro.isDisponibilidade());
 
-            comando.executeUpdate();
+			comando.executeUpdate();
 
-            System.out.println("Livro cadastrado no banco!");
+			System.out.println("Livro cadastrado no banco!");
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-
-    // =========================================================
-    // LISTAR LIVROS
-    // =========================================================
-
-    public List<Livro> listar() {
-
-        List<Livro> livros = new ArrayList<>();
-
-        String sql = "SELECT titulo, autor, editora, isbn, "
-                   + "ano_publicacao, disponibilidade "
-                   + "FROM livros";
-
-        try (Connection conexao = Conexao.conectar();
-             PreparedStatement comando = conexao.prepareStatement(sql);
-             ResultSet resultado = comando.executeQuery()) {
-
-            while (resultado.next()) {
-
-                Livro livro = new Livro(
-                        resultado.getString("titulo"),
-                        resultado.getString("autor"),
-                        resultado.getString("editora"),
-                        resultado.getString("isbn"),
-                        resultado.getString("ano_publicacao"),
-                        resultado.getBoolean("disponibilidade")
-                );
-
-                livros.add(livro);
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return livros;
-    }
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 
-//=========================================================
-//BUSCAR LIVRO PELO TÍTULO
-//=========================================================
+	// =========================================================
+	// LISTAR TODOS OS LIVROS
+	// =========================================================
 
-public Livro buscarPorTitulo(String titulo) {
+	public List<Livro> listar() {
 
- String sql = "SELECT titulo, autor, editora, isbn, "
-            + "ano_publicacao, disponibilidade "
-            + "FROM livros "
-            + "WHERE titulo = ?";
+		List<Livro> livros = new ArrayList<>();
 
- try (Connection conexao = Conexao.conectar();
-      PreparedStatement comando = conexao.prepareStatement(sql)) {
+		String sql = "SELECT titulo, autor, editora, isbn, "
+				+ "ano_publicacao, disponibilidade "
+				+ "FROM livros";
 
-     comando.setString(1, titulo);
+		try (Connection conexao = Conexao.conectar();
+			 PreparedStatement comando = conexao.prepareStatement(sql);
+			 ResultSet resultado = comando.executeQuery()) {
 
-     ResultSet resultado = comando.executeQuery();
+			while (resultado.next()) {
 
-     if (resultado.next()) {
+				Livro livro = new Livro(
+						resultado.getString("titulo"),
+						resultado.getString("autor"),
+						resultado.getString("editora"),
+						resultado.getString("isbn"),
+						resultado.getString("ano_publicacao"),
+						resultado.getBoolean("disponibilidade")
+				);
 
-         Livro livro = new Livro(
-                 resultado.getString("titulo"),
-                 resultado.getString("autor"),
-                 resultado.getString("editora"),
-                 resultado.getString("isbn"),
-                 resultado.getString("ano_publicacao"),
-                 resultado.getBoolean("disponibilidade")
-         );
+				livros.add(livro);
+			}
 
-         return livro;
-     }
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
- } catch (Exception e) {
-     e.printStackTrace();
- }
+		return livros;
+	}
 
- return null;
-}
 
-//=========================================================
-//REMOVER LIVRO PELO TÍTULO
-//=========================================================
+	// =========================================================
+	// BUSCAR LIVRO PELO TÍTULO
+	// =========================================================
 
-public void removerPorTitulo(String titulo) {
+	public Livro buscarPorTitulo(String titulo) {
 
- String sql = "DELETE FROM livros WHERE titulo = ?";
+		String sql = "SELECT titulo, autor, editora, isbn, "
+				+ "ano_publicacao, disponibilidade "
+				+ "FROM livros "
+				+ "WHERE titulo = ?";
 
- try (Connection conexao = Conexao.conectar();
-      PreparedStatement comando = conexao.prepareStatement(sql)) {
+		try (Connection conexao = Conexao.conectar();
+			 PreparedStatement comando = conexao.prepareStatement(sql)) {
 
-     comando.setString(1, titulo);
+			comando.setString(1, titulo);
 
-     int linhasAfetadas = comando.executeUpdate();
+			ResultSet resultado = comando.executeQuery();
 
-     if (linhasAfetadas > 0) {
-         System.out.println("Livro removido do banco!");
-     } else {
-         System.out.println("Livro não encontrado no banco.");
-     }
+			if (resultado.next()) {
 
- } catch (Exception e) {
-     e.printStackTrace();
-  }
- }
+				return new Livro(
+						resultado.getString("titulo"),
+						resultado.getString("autor"),
+						resultado.getString("editora"),
+						resultado.getString("isbn"),
+						resultado.getString("ano_publicacao"),
+						resultado.getBoolean("disponibilidade")
+				);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+
+
+	// =========================================================
+	// REMOVER LIVRO PELO TÍTULO
+	// =========================================================
+
+	public void removerPorTitulo(String titulo) {
+
+		String sql = "DELETE FROM livros WHERE titulo = ?";
+
+		try (Connection conexao = Conexao.conectar();
+			 PreparedStatement comando = conexao.prepareStatement(sql)) {
+
+			comando.setString(1, titulo);
+
+			int linhasAfetadas = comando.executeUpdate();
+
+			if (linhasAfetadas > 0) {
+				System.out.println("Livro removido do banco!");
+			} else {
+				System.out.println("Livro não encontrado no banco.");
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+// =========================================================
+// BUSCAR LIVRO PELO ID
+// =========================================================
+
+	public Livro buscarPorId(Long id) {
+
+		String sql = "SELECT id, titulo, autor, editora, isbn, "
+				+ "ano_publicacao, disponibilidade "
+				+ "FROM livros WHERE id = ?";
+
+		try (Connection conexao = Conexao.conectar();
+			 PreparedStatement comando = conexao.prepareStatement(sql)) {
+
+			comando.setLong(1, id);
+
+			ResultSet resultado = comando.executeQuery();
+
+			if (resultado.next()) {
+
+				Livro livro = new Livro(
+						resultado.getString("titulo"),
+						resultado.getString("autor"),
+						resultado.getString("editora"),
+						resultado.getString("isbn"),
+						resultado.getString("ano_publicacao"),
+						resultado.getBoolean("disponibilidade")
+				);
+
+				livro.setId(resultado.getLong("id"));
+
+				return livro;
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return null;
+	}
+
+
+// =========================================================
+// ATUALIZAR LIVRO
+// =========================================================
+
+	public boolean atualizar(Long id, Livro livro) {
+
+		String sql = "UPDATE livros SET "
+				+ "titulo = ?, "
+				+ "autor = ?, "
+				+ "editora = ?, "
+				+ "isbn = ?, "
+				+ "ano_publicacao = ?, "
+				+ "disponibilidade = ? "
+				+ "WHERE id = ?";
+
+		try (Connection conexao = Conexao.conectar();
+			 PreparedStatement comando = conexao.prepareStatement(sql)) {
+
+			comando.setString(1, livro.getTitulo());
+			comando.setString(2, livro.getAutor());
+			comando.setString(3, livro.getEditora());
+			comando.setString(4, livro.getIsbn());
+			comando.setString(5, livro.getAnoPublicacao());
+			comando.setBoolean(6, livro.isDisponibilidade());
+			comando.setLong(7, id);
+
+			int linhasAfetadas = comando.executeUpdate();
+
+			return linhasAfetadas > 0;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+
+// =========================================================
+// REMOVER LIVRO PELO ID
+// =========================================================
+
+	public boolean remover(Long id) {
+
+		String sql = "DELETE FROM livros WHERE id = ?";
+
+		try (Connection conexao = Conexao.conectar();
+			 PreparedStatement comando = conexao.prepareStatement(sql)) {
+
+			comando.setLong(1, id);
+
+			int linhasAfetadas = comando.executeUpdate();
+
+			return linhasAfetadas > 0;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
 }

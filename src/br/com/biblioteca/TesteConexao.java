@@ -1,3 +1,5 @@
+//Teste de Conexão para o MYSQL
+
 package br.com.biblioteca;
 
 import java.sql.Connection;
