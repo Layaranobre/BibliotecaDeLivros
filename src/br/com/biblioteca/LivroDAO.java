@@ -46,7 +46,7 @@ public class LivroDAO {
 
 		List<Livro> livros = new ArrayList<>();
 
-		String sql = "SELECT titulo, autor, editora, isbn, "
+		String sql = "SELECT id, titulo, autor, editora, isbn, "
 				+ "ano_publicacao, disponibilidade "
 				+ "FROM livros";
 
@@ -64,6 +64,8 @@ public class LivroDAO {
 						resultado.getString("ano_publicacao"),
 						resultado.getBoolean("disponibilidade")
 				);
+
+				livro.setId(resultado.getLong("id"));
 
 				livros.add(livro);
 			}
@@ -147,7 +149,8 @@ public class LivroDAO {
 
 		String sql = "SELECT id, titulo, autor, editora, isbn, "
 				+ "ano_publicacao, disponibilidade "
-				+ "FROM livros WHERE id = ?";
+				+ "FROM livros "
+				+ "WHERE titulo = ?";
 
 		try (Connection conexao = Conexao.conectar();
 			 PreparedStatement comando = conexao.prepareStatement(sql)) {
