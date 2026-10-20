@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Biblioteca</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ===================== CABEÇALHO ===================== -->
+  <header class="cabecalho-biblioteca">
+    <div class="cabecalho-biblioteca__conteudo">
+      <h1 class="cabecalho-biblioteca__titulo">📚 Biblioteca</h1>
+      <p class="cabecalho-biblioteca__subtitulo">Cadastre, busque, altere e remova livros</p>
+    </div>
+  </header>
+
+  <main class="principal-biblioteca">
+
+    <!-- ===================== RESUMO ===================== -->
+    <section class="resumo-livros" aria-label="Resumo do acervo">
+      <div class="resumo-livros__item">
+        <span class="resumo-livros__numero" id="total-livros">0</span>
+        <span class="resumo-livros__rotulo">Livros cadastrados</span>
+      </div>
+      <div class="resumo-livros__item resumo-livros__item--disponivel">
+        <span class="resumo-livros__numero" id="total-disponiveis">0</span>
+        <span class="resumo-livros__rotulo">Disponíveis</span>
+      </div>
+      <div class="resumo-livros__item resumo-livros__item--indisponivel">
+        <span class="resumo-livros__numero" id="total-indisponiveis">0</span>
+        <span class="resumo-livros__rotulo">Indisponíveis</span>
+      </div>
+    </section>
+
+    <div class="area-livros">
+
+      <!-- ===================== FORMULÁRIO (CADASTRAR / ALTERAR) ===================== -->
+      <section class="painel-livro painel-livro--formulario">
+        <h2 class="painel-livro__titulo" id="titulo-formulario-livro">Cadastrar livro</h2>
+
+        <form id="form-livro" class="form-livro" autocomplete="off">
+          <input type="hidden" id="input-id">
+
+          <div class="form-livro__campo">
+            <label for="input-titulo">Título</label>
+            <input type="text" id="input-titulo" name="titulo" required>
+          </div>
+
+          <div class="form-livro__campo">
+            <label for="input-autor">Autor</label>
+            <input type="text" id="input-autor" name="autor" required>
+          </div>
+
+          <div class="form-livro__campo">
+            <label for="input-editora">Editora</label>
+            <input type="text" id="input-editora" name="editora" required>
+          </div>
+
+          <div class="form-livro__linha">
+            <div class="form-livro__campo">
+              <label for="input-isbn">ISBN</label>
+              <input type="text" id="input-isbn" name="isbn" required>
+            </div>
+
+            <div class="form-livro__campo">
+              <label for="input-ano-publicacao">Ano de publicação</label>
+              <input type="text" id="input-ano-publicacao" name="anoPublicacao"  inputmode="numeric" required>
+            </div>
+          </div>
+
+          <label class="form-livro__disponibilidade" for="input-disponibilidade">
+            <input type="checkbox" id="input-disponibilidade" name="disponibilidade" checked>
+            <span>Livro disponível</span>
+          </label>
+
+          <div class="form-livro__acoes">
+            <button type="submit" class="botao-livro botao-livro--principal" id="btn-salvar-livro">Cadastrar livro</button>
+            <button type="button" class="botao-livro botao-livro--secundario" id="btn-cancelar-edicao" hidden>Cancelar edição</button>
+          </div>
+        </form>
+      </section>
+
+      <!-- ===================== LISTA / BUSCA ===================== -->
+      <section class="painel-livro painel-livro--lista">
+        <div class="painel-livro__cabecalho">
+          <h2 class="painel-livro__titulo">Livros cadastrados</h2>
+
+          <form id="form-busca-livro" class="busca-livro" role="search">
+            <input type="search" id="input-busca-titulo" class="busca-livro__input" placeholder="Buscar por título...">
+            <button type="submit" class="botao-livro botao-livro--principal" id="btn-buscar-livro">Buscar</button>
+            <button type="button" class="botao-livro botao-livro--secundario" id="btn-limpar-busca">Limpar</button>
+          </form>
+        </div>
+
+        <div class="tabela-livros__container">
+          <table class="tabela-livros" id="tabela-livros">
+            <thead>
+              <tr>
+                <th>Título</th>
+                <th>Autor</th>
+                <th>Editora</th>
+                <th>ISBN</th>
+                <th>Ano</th>
+                <th>Situação</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody id="lista-livros"></tbody>
+          </table>
+        </div>
+
+        <p class="mensagem-livros" id="mensagem-livros" hidden>Nenhum livro cadastrado.</p>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- ===================== AVISO (TOAST) ===================== -->
+  <div class="aviso-livro" id="aviso-livro" role="status" aria-live="polite" hidden></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
