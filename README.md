@@ -43,8 +43,9 @@ que guarda os dados em um banco **MySQL na nuvem**. O back-end é empacotado com
 ## 🔮 Em desenvolvimento
 
 - [ ] Tratamento de erros e validações mais completos na API
-- [ ] Cadastro para cada usuário e Autenticação de usuários
+- [ ] Cadastro usuários selecionados e Autenticação de usuários
 - [ ] Busca por autor e filtros por disponibilidade
+- [ ] Diversidade de Livros
 - [ ] Livro completo, imagens e textos.
 - [ ] Inclução de outras APIs
 
