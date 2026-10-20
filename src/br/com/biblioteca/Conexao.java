@@ -11,20 +11,31 @@ public class Conexao {
 
     public static Connection conectar() throws SQLException {
 
-        Properties propriedades = new Properties();
+        String url = System.getenv("DB_URL");
+        String usuario = System.getenv("DB_USER");
+        String senha = System.getenv("DB_PASSWORD");
 
-        try {
-            propriedades.load(new FileInputStream("application.properties"));
-        } catch (IOException e) {
-            throw new SQLException("Não foi possível carregar as configurações do banco.", e);
+        if (url == null || usuario == null || senha == null) {
+
+            Properties propriedades = new Properties();
+
+            try {
+                propriedades.load(new FileInputStream("application.properties"));
+            } catch (IOException e) {
+                throw new SQLException(
+                        "Não foi possível carregar as configurações do banco.",
+                        e
+                );
+            }
+
+            url = propriedades.getProperty("db.url");
+            usuario = propriedades.getProperty("db.user");
+            senha = propriedades.getProperty("db.password");
         }
-
-        String url = propriedades.getProperty("db.url");
-        String usuario = propriedades.getProperty("db.user");
-        String senha = propriedades.getProperty("db.password");
 
         return DriverManager.getConnection(url, usuario, senha);
     }
+
 }
 
 //Alterado para não aparecer a senha no GitHub
